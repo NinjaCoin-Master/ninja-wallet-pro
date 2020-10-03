@@ -47,8 +47,8 @@ let backendReady = false;
 let configReady = false;
 
 const directories = [
-  `${homedir}/.ninja-wallet-pro`,
-  `${homedir}/.ninja-wallet-pro/logs`
+  `${homedir}/.ninjacoin-wallet`,
+  `${homedir}/.ninjacoin-wallet/logs`
 ];
 
 const [programDirectory] = directories;
@@ -222,7 +222,7 @@ app.on('ready', async () => {
   await installExtensions();
 
   mainWindow = new BrowserWindow({
-    title: `Ninja Wallet Pro v${version}`,
+    title: `NinjaCoin Wallet v${version}`,
     useContentSize: true,
     show: false,
     width: 1250,

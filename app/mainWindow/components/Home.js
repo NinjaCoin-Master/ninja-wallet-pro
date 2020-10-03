@@ -415,7 +415,7 @@ export default class Home extends Component<Props, State> {
                 <div className={`box ${fillColor}`}>
                   <p className={`${textColor} title has-text-centered`}>
                     <i className="fas fa-robot" />
-                    &nbsp;&nbsp;Welcome to Ninja Wallet Pro!
+                    &nbsp;&nbsp;Welcome to NinjaCoin Wallet!
                   </p>
                   <br />
                   <p className={`${textColor} subtitle has-text-centered`}>

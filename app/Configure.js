@@ -26,7 +26,7 @@ const Configure = new function() {
      * The amount of decimal places your coin has, e.g. TurtleCoin has two
      * decimals
      */
-    this.decimalPlaces = 2;
+    this.decimalPlaces = 5;
 
     /**
      * The address prefix your coin uses - you can find this in CryptoNoteConfig.h.
@@ -184,7 +184,7 @@ const Configure = new function() {
 
     this.ExplorerURL = 'https://explorer.ninjacoin.org';
 
-    this.GitHubRepo = 'https://github.com/ninjacoin/ninja-wallet-pro';
+    this.GitHubRepo = 'https://github.com/ninjacoin-master/ninja-wallet-pro';
 
     this.DiscordURL = 'https://discord.ninjacoin.org';
 };

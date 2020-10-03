@@ -1,7 +1,7 @@
 {
   "name": "Ninja-Wallet-Pro",
-  "productName": "Ninja Wallet Pro",
-  "version": "2.0.4",
+  "productName": "NinjaCoin Wallet",
+  "version": "2.0.5",
   "description": "NinjaCoin wallet based on React, React Router, Webpack, and React Hot Loader",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -46,7 +46,7 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "Ninja Wallet Pro",
+    "productName": "NinjaCoin Wallet",
     "appId": "ninja.wallet.pro",
     "files": [
       "app/dist/",
@@ -132,7 +132,7 @@
     "ninjacoin",
     "gui wallet",
     "electron",
-    "proton",
+    "ninjacoin wallet",
     "ninja",
     "ninja wallet pro"
   ],
@@ -191,7 +191,7 @@
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",
     "detect-port": "^1.3.0",
-    "electron": "^4.1.3",
+    "electron": "^7.2.4",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.9.0",
