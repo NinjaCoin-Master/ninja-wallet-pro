@@ -1,5 +1,5 @@
 {
-  "name": "Ninja-Wallet-Pro",
+  "name": "NinjaCoin-Wallet",
   "productName": "NinjaCoin Wallet",
   "version": "2.0.5",
   "description": "NinjaCoin wallet based on React, React Router, Webpack, and React Hot Loader",
@@ -132,7 +132,7 @@
     "ninjacoin",
     "gui wallet",
     "electron",
-    "ninjacoin wallet",
+    "proton",
     "ninja",
     "ninja wallet pro"
   ],

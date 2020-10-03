@@ -1,4 +1,4 @@
-# NinjaCoin Wallet Pro
+# NinjaCoin Wallet
 
 ![Download Count](https://img.shields.io/github/downloads/ninjacoin-master/ninja-wallet-pro/total.svg)
 ![Open Issue Count](https://img.shields.io/github/issues/ninjacoin-master/ninja-wallet-pro)
@@ -11,6 +11,10 @@
 <p>
   All of the code is released under the GPLv3 license. The icons in the ./resources and ./app/images folders, however, are not released under this license, rather they are maintained to be intellectual property of ExtraHash, and may not be used to represent the brand or identity of any other piece of software or group. See the included license file in ./resources/LICENSE and ./app/images/LICENSE for more details.
 </p>
+
+## Installing
+
+**Check out the full tutorial on how to install and use NinjaCoin Wallet at the [official NinjaCoin docs page](https://docs.turtlecoin.lol/guides/wallets/using-ninja-wallet-pro)!**
 
 ## Development Setup (All Platforms)
 
@@ -37,7 +41,7 @@ git clone https://github.com/ninjacoin-master/ninja-wallet-pro.git
 And then install the dependencies with yarn.
 
 ```bash
-$ cd ninjacoin-wallet
+$ cd ninja-wallet-pro
 $ yarn
 ```
 

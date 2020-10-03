@@ -38,8 +38,8 @@ export function savedInInstallDir(savePath: string) {
 const homedir = os.homedir();
 
 export const directories = [
-  `${homedir}/.ninjacoin-wallet`,
-  `${homedir}/.ninjacoin-wallet/logs`
+  `${homedir}/.ninja-wallet-pro`,
+  `${homedir}/.ninja-wallet-pro/logs`
 ];
 
 export const il8n = new LocalizedStrings({
