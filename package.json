@@ -136,7 +136,7 @@
     "ninja",
     "ninja wallet pro"
   ],
-  "homepage": "https://github.com/ninjacoin/turtle-wallet-proton#readme",
+  "homepage": "https://github.com/ninjacoin/ninja-wallet-pro#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
