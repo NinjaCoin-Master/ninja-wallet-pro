@@ -1,11 +1,11 @@
-# NinjaCoin Wallet
+# NinjaCoin Wallet Pro
 
 ![Download Count](https://img.shields.io/github/downloads/ninjacoin-master/ninja-wallet-pro/total.svg)
 ![Open Issue Count](https://img.shields.io/github/issues/ninjacoin-master/ninja-wallet-pro)
 ![License](https://img.shields.io/github/license/ninjacoin-master/ninja-wallet-pro)
 ![Version](https://img.shields.io/github/v/release/ninjacoin-master/ninja-wallet-pro)
 
-  NinjaCoin Wallet is a wallet that uses <a href="http://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/turtlecoin/ninjacoin-wallet-backend-js">Turtlecoin-Wallet-Backend-JS</a>, <a href="https://github.com/reactjs/redux">Redux</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="http://webpack.github.io/docs/">Webpack</a> and <a href="https://github.com/gaearon/react-hot-loader">React Hot Loader</a>.
+  NinjaCoin Wallet Pro Wallet is a NinjaCoin wallet that uses <a href="http://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/turtlecoin/ninjacoin-wallet-backend-js">Turtlecoin-Wallet-Backend-JS</a>, <a href="https://github.com/reactjs/redux">Redux</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="http://webpack.github.io/docs/">Webpack</a> and <a href="https://github.com/gaearon/react-hot-loader">React Hot Loader</a>.
 </p>
 
 <p>
@@ -14,7 +14,7 @@
 
 ## Installing
 
-**Check out the full tutorial on how to install and use NinjaCoin Wallet at the [official NinjaCoin docs page](https://docs.turtlecoin.lol/guides/wallets/using-ninja-wallet-pro)!**
+**Check out the full tutorial on how to install and use NinjaCoin Wallet Pro at the [official NinjaCoin docs page](https://docs.turtlecoin.lol/guides/wallets/using-ninja-wallet-pro)!**
 
 ## Development Setup (All Platforms)
 
