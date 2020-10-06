@@ -2,7 +2,7 @@
   "name": "NinjaCoin-Wallet",
   "productName": "NinjaCoin Wallet",
   "version": "2.0.5",
-  "description": "NinjaCoin Wallet",
+  "description": "NinjaCoin wallet based on React, React Router, Webpack, and React Hot Loader",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -94,7 +94,7 @@
     "publish": {
       "provider": "github",
       "owner": "NinjaCoin-Master",
-      "repo": "Ninja-Wallet-Pro",
+      "repo": "NinjaCoin-Wallet",
       "private": false
     }
   },
@@ -136,7 +136,7 @@
     "ninja",
     "ninja wallet pro"
   ],
-  "homepage": "https://github.com/ninjacoin/ninja-wallet-pro#readme",
+  "homepage": "https://github.com/ninjacoin-master/ninja-wallet-pro#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -191,7 +191,7 @@
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",
     "detect-port": "^1.3.0",
-    "electron": "^7.2.4",
+    "electron": "^4.1.3",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.9.0",

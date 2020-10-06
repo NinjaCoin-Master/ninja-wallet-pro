@@ -171,7 +171,7 @@ const Configure = new function() {
      * Default daemon to use. Can either be a BlockchainCacheApi(baseURL, SSL),
      * or a ConventionalDaemon(url, port).
      */
-    this.defaultDaemon = new Daemon('public.ninjanode.net', 11801);
+    this.defaultDaemon = new Daemon('public.ninjanode.net', 443);
 
     /**
      * A url to fetch node info from. Should follow the turtlepay format 
