@@ -79,7 +79,7 @@
         "publish": {
             "provider": "github",
             "owner": "Ninjacoin.org",
-            "repo": "ninja",
+            "repo": "proton",
             "private": false
         }
     },
@@ -100,7 +100,7 @@
         "ninjacoin",
         "gui wallet",
         "electron",
-        "ninja"
+        "proton"
     ],
     "homepage": "https://github.com/ninjacoin-master/ninja-wallet-pro#readme",
     "jest": {
