@@ -3,7 +3,7 @@
 // Please see the included LICENSE file for more information.
 import React, { Component } from "react";
 import ReactTooltip from "react-tooltip";
-import { remote } from "electron";
+import { remote, shell } from "electron";
 import log from "electron-log";
 import { WalletBackend, Daemon } from "ninjacoin-wallet-backend";
 import NavBar from "./NavBar";
@@ -12,9 +12,13 @@ import Redirector from "./Redirector";
 import { uiType } from "../utils/utils";
 import { eventEmitter, reInitWallet, config } from "../index";
 import Configure from "../../configure";
+import ReactLoading from "react-loading";
 import iConfig from "../constants/config.json";
+import request from "request-promise";
 import fs from "fs";
 import { extensionRegex } from "../utils/utils";
+
+const TransportNodeHID = require("@ledgerhq/hw-transport-node-hid").default;
 
 type State = {
     darkMode: boolean,
@@ -24,14 +28,16 @@ type State = {
     activePage: string,
     showPassword: boolean,
     darkMode: boolean,
-    mnemonicSeed: string,
-    importedWallet: WalletBackend | null,
-    scanHeight: string
+    privateSpendKey: string,
+    privateViewKey: string,
+    importedWallet: any,
+    scanHeight: string,
+    waitingOnLedger: boolean
 };
 
 type Props = {};
 
-export default class Import extends Component<Props, State> {
+export default class ImportLedger extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -39,10 +45,12 @@ export default class Import extends Component<Props, State> {
             activePage: "enter_seed",
             password: "",
             confirmPassword: "",
-            mnemonicSeed: "",
+            privateSpendKey: "",
+            privateViewKey: "",
             scanHeight: "",
             showPassword: false,
-            importedWallet: null
+            importedWallet: null,
+            waitingOnLedger: false
         };
 
         this.nextPage = this.nextPage.bind(this);
@@ -124,7 +132,8 @@ export default class Import extends Component<Props, State> {
             activePage,
             password,
             confirmPassword,
-            mnemonicSeed,
+            privateSpendKey,
+            privateViewKey,
             scanHeight,
             darkMode,
             importedWallet
@@ -133,14 +142,40 @@ export default class Import extends Component<Props, State> {
         let currentPageNumber: number = this.evaluatePageNumber(activePage);
 
         if (currentPageNumber === 1) {
+            const devices = await TransportNodeHID.list();
+
+            if (devices.length === 0) {
+                const message = (
+                    <div>
+                        <center>
+                            <p className="title has-text-danger">
+                                Ledger Detect Error!
+                            </p>
+                        </center>
+                        <br />
+                        <p className={`subtitle ${textColor}`}>
+                            No ledger was detected. Make sure you have a ledger
+                            plugged in and try again.
+                        </p>
+                    </div>
+                );
+                eventEmitter.emit("openModal", message, "OK", null, null);
+                return;
+            }
+
+            this.setState({ waitingOnLedger: true });
+
+            const transport = await TransportNodeHID.create();
+
             const [
                 restoredWallet,
                 error
-            ] = await WalletBackend.importWalletFromSeed(
+            ] = await WalletBackend.importWalletFromLedger(
                 new Daemon(iConfig.daemonHost, iConfig.daemonPort),
-                scanHeight === "" ? 0 : Number(scanHeight),
-                mnemonicSeed,
-                Configure
+                Number(this.state.scanHeight),
+                {
+                    ledgerTransport: transport
+                }
             );
 
             if (error) {
@@ -161,8 +196,10 @@ export default class Import extends Component<Props, State> {
                 eventEmitter.emit("openModal", message, "OK", null, null);
                 return;
             }
+
             this.setState({
-                importedWallet: restoredWallet
+                importedWallet: restoredWallet,
+                waitingOnLedger: false
             });
         }
 
@@ -183,14 +220,12 @@ export default class Import extends Component<Props, State> {
             if (response.canceled) {
                 return;
             }
-
             if (
                 !extensionRegex.exec(response.filePath) &&
                 !fs.existsSync(response.filePath + ".wallet")
             ) {
                 response.filePath += ".wallet";
             }
-
             const saved = importedWallet.saveWalletToFile(
                 `${response.filePath}`,
                 password
@@ -247,12 +282,18 @@ export default class Import extends Component<Props, State> {
             activePage,
             password,
             confirmPassword,
-            mnemonicSeed,
+            privateSpendKey,
+            privateViewKey,
             showPassword,
             importedWallet,
             scanHeight
         } = this.state;
-        const { backgroundColor, fillColor, textColor } = uiType(darkMode);
+        const {
+            backgroundColor,
+            fillColor,
+            textColor,
+            elementBaseColor
+        } = uiType(darkMode);
 
         return (
             <div>
@@ -283,7 +324,9 @@ export default class Import extends Component<Props, State> {
                                     )}
                                 </div>
                                 <div className="step-details">
-                                    <p className="step-title">Enter Seed</p>
+                                    <p className="step-title">
+                                        Enter Scan Height
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -332,74 +375,114 @@ export default class Import extends Component<Props, State> {
 
                         {activePage === "enter_seed" && (
                             <div>
-                                <p className={`subtitle ${textColor}`}>
-                                    Welcome to the wallet import wizard. Please
-                                    enter your mnemonic seed.
-                                </p>
-                                <div>
-                                    <label
-                                        className={`label ${textColor}`}
-                                        htmlFor="seed"
-                                    >
-                                        Mnemonic Seed:
-                                        <textarea
-                                            className="textarea is-large"
-                                            placeholder="Enter your mnemonic seed"
-                                            rows={2}
-                                            onChange={event => {
-                                                this.setState({
-                                                    mnemonicSeed:
-                                                        event.target.value
-                                                });
-                                            }}
-                                            onKeyPress={event => {
-                                                if (event.key === "Enter") {
-                                                    this.nextPage();
-                                                }
-                                            }}
-                                            value={mnemonicSeed}
-                                        />
-                                    </label>
-                                    <label
-                                        className={`label ${textColor}`}
-                                        htmlFor="scanHeight"
-                                    >
-                                        Scan Height: (Optional)
-                                        <textarea
-                                            className="input is-large"
-                                            placeholder="0"
-                                            rows={4}
-                                            onChange={event => {
-                                                this.setState({
-                                                    scanHeight:
-                                                        event.target.value
-                                                });
-                                            }}
-                                            onKeyPress={event => {
-                                                if (event.key === "Enter") {
-                                                    this.nextPage();
-                                                }
-                                            }}
-                                            value={scanHeight}
-                                        />
-                                        <p className={`${textColor} help`}>
-                                            Optional. Defaults to 0 if
-                                            you&apos;re not sure.
+                                {!this.state.waitingOnLedger && (
+                                    <div>
+                                        <p className={`subtitle ${textColor}`}>
+                                            Welcome to the wallet import wizard.
+                                            This will import a view only wallet
+                                            you can use with your ledger. Your
+                                            private keys never leave your
+                                            ledger, and it handles all of the
+                                            sensitive operations. Please enter
+                                            the scan height for your ledger
+                                            wallet, ie, the height of your first
+                                            transaction.{" "}
+                                            <strong>
+                                                If this is a brand new wallet
+                                                with no previous transactions,
+                                                click the new wallet button.
+                                            </strong>
                                         </p>
-                                    </label>
-                                </div>
+                                        <label
+                                            className={`label ${textColor}`}
+                                            htmlFor="scanHeight"
+                                        >
+                                            Scan Height:
+                                            <textarea
+                                                className="input is-large"
+                                                placeholder="0"
+                                                onChange={event => {
+                                                    this.setState({
+                                                        scanHeight:
+                                                            event.target.value
+                                                    });
+                                                }}
+                                                value={scanHeight}
+                                                onKeyPress={event => {
+                                                    if (event.key === "Enter") {
+                                                        this.nextPage();
+                                                    }
+                                                }}
+                                            />
+                                            <p className={`${textColor} help`}>
+                                                Optional. Defaults to 0 if
+                                                you&apos;re not sure.
+                                            </p>
+                                        </label>
+                                        <br />
+                                        <button
+                                            className={`is-large button ${elementBaseColor}`}
+                                            onClick={async () => {
+                                                const requestOptions = {
+                                                    method: "GET",
+                                                    uri:
+                                                        Configure.currentHeightURL,
+                                                    headers: {},
+                                                    json: true,
+                                                    gzip: true
+                                                };
+
+                                                try {
+                                                    const result = await request(
+                                                        requestOptions
+                                                    );
+                                                    this.setState(
+                                                        {
+                                                            scanHeight:
+                                                                result.network_height
+                                                        },
+                                                        () => {
+                                                            this.nextPage();
+                                                        }
+                                                    );
+                                                } catch (err) {}
+                                            }}
+                                        >
+                                            New Wallet
+                                        </button>
+                                    </div>
+                                )}
+                                {this.state.waitingOnLedger && (
+                                    <center>
+                                        <br />
+                                        <br />
+                                        <div className="mid-div">
+                                            <div
+                                                className={`inner-div box ${fillColor}`}
+                                            >
+                                                <div
+                                                    className={`title ${textColor}`}
+                                                >
+                                                    <ReactLoading
+                                                        type="spinningBubbles"
+                                                        color="#F5F5F5"
+                                                        height={100}
+                                                        width={100}
+                                                    />
+                                                    <br /> Please Confirm Prompt
+                                                    on your Ledger
+                                                </div>
+                                            </div>
+                                        </div>{" "}
+                                    </center>
+                                )}
                             </div>
                         )}
 
                         {activePage === "verify" && (
                             <div>
                                 <p className={`subtitle ${textColor}`}>
-                                    Confirm the address below is the one you
-                                    expect.{" "}
-                                    <span className="has-text-danger has-text-weight-bold ">
-                                        If it isn&apos;t correct, go back and
-                                        double check your seed.
-                                    </span>
+                                    This is your public address.{" "}
                                 </p>
                                 <p className={`label ${textColor}`}>
                                     Imported Wallet Address:

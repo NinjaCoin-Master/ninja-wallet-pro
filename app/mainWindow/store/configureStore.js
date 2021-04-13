@@ -1,14 +1,13 @@
 // Copyright (C) 2019 ExtraHash
-// Copyright (C) 2019, WrkzCoin
-// Copyright (C) 2019, NinjaCoin
+//
 // Please see the included LICENSE file for more information.
-import configureStoreDev from './configureStore.dev';
-import configureStoreProd from './configureStore.prod';
+import configureStoreDev from "./configureStore.dev";
+import configureStoreProd from "./configureStore.prod";
 
 const selectedConfigureStore =
-  process.env.NODE_ENV === 'production'
-    ? configureStoreProd
-    : configureStoreDev;
+    process.env.NODE_ENV === "production"
+        ? configureStoreProd
+        : configureStoreDev;
 
 export const { configureStore } = selectedConfigureStore;
 
