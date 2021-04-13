@@ -28,7 +28,7 @@
 
 - Git https://git-scm.com/downloads
 
-Tip: If you already have a different version of node.js installed besides 10.x, try using [Node Version Manager](https://github.com/nvm-sh/nvm#install--update-script).
+Tip: If you already have a different version of node.js installed besides 14.x, try using [Node Version Manager](https://github.com/nvm-sh/nvm#install--update-script).
 
 #### Setup
 
