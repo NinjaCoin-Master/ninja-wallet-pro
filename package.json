@@ -1,7 +1,7 @@
 {
     "name": "ninjacoin-wallet",
     "productName": "Ninjacoin Wallet",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Ninjacoin wallet based on React, React Router, Webpack, and React Hot Loader",
     "scripts": {
         "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
